@@ -11,11 +11,7 @@ use app\admin\model\Image;
 
 class Guanwang extends Controller
 {
-    /**
-     * 显示资源列表
-     *
-     * @return \think\Response
-     */
+    
     public function index(Request $request)
     {   
         $param = $this->request->param();
