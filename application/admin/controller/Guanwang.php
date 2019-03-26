@@ -14,7 +14,8 @@ class Guanwang extends Controller
     
     public function index(Request $request)
     {   
-        //as框架和asd
+        //as框架和asd测试
+        // 132
         $param = $this->request->param();
         // var_dump($param);
         // 判断是否存在搜索关键词
