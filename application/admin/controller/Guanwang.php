@@ -11,10 +11,10 @@ use app\admin\model\Image;
 
 class Guanwang extends Controller
 {
-    
+    //微官网首页
     public function index(Request $request)
     {   
-        
+
         $param = $this->request->param();
         // var_dump($param);
         // 判断是否存在搜索关键词
