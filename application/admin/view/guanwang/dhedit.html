@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    {load href="/static/admin/css/font.css" /}
+    {load href="/static/admin/css/xadmin.css" /}
+  </head>
+  
+  <body>
+ <div class="x-body">
+    <form class="layui-form" id="art_form" action="{:url('admin/Guanwang/dodh',['id'=>$daohang.dh_id])}" method="post">
+    		<div class="layui-inline">
+		      <label class="layui-form-label">导航显示位置</label>
+		      <div class="layui-input-inline">
+		        <select name="dh_place" lay-verify="required" lay-search="" style="width: 50px">
+		          <option value="">==选择==</option>
+		          <option value="1" selected="">位置1</option>
+		          <option value="2">位置2</option>
+		          <option value="3">位置3</option>
+		          <option value="4">位置4</option>
+		          <option value="5">位置5</option>
+		          <option value="6">位置6</option>
+		          <option value="7">位置7</option>
+		          <option value="8">位置8</option>
+		          <option value="9">位置9</option>
+		          <option value="9">位置10</option>
+		        </select> 
+		        <div class="layui-form-mid layui-word-aux">设置位置后可以将导航菜单显示到模板对应的位置中。（可以同时设置多个导航在同一个位置中，会根据排序大小依次显示），显示的位置必须要有模板支持。
+					<h2>注意：如果您添加了模板未设置的位置时，该链接将不会显示，您可以在导航列表中查看。</h2></div>
+		      </div>
+		      
+		    </div>
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>名称
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="dh_name" 
+                           autocomplete="" class="layui-input" value="{$daohang.dh_name}">       
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+			    <label class="layui-form-label">描述</label>
+			    <div class="layui-input-block">
+			      <textarea placeholder="请输入内容" class="layui-textarea" name="dh_description" value="{}">{$daohang.dh_description|raw}</textarea>
+			    </div>   
+			 </div>
+            <div class="layui-form-item">
+			    <label class="layui-form-label">链接</label>
+			    <div class="layui-input-block">
+			      <select name="dh_url" lay-filter="aihao">
+			        <option value="">链接地址:http://example.com</option>
+			        <option value="0" selected="">系统菜单</option>
+			        <option value="1" >微页面</option>
+			        <option value="2">文章及分类</option>
+			        <option value="3">图文回复</option>
+			        <option value="4">一键导航</option>
+			      </select>
+			    </div>
+			</div>
+			<div class="layui-form-item">
+			    <label class="layui-form-label">状态</label>
+			    <div class="layui-input-block">
+                    {if $daohang.dh_state==0}
+                        <input type="radio" name="dh_state" value="0" title="显示" checked="">
+                        <input type="radio" name="dh_state" value="1" title="隐藏">
+                    {else/}
+                        <input type="radio" name="dh_state" value="0" title="显示" >
+                        <input type="radio" name="dh_state" value="1" title="隐藏" checked="">
+                    {/if}
+			      
+			    </div>
+			 </div>
+			 <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>排序
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="dh_sort" 
+                           autocomplete="" class="layui-input" value="{$daohang.dh_sort}">       
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><span class="x-red">*</span>缩略图</label>
+                <div class="layui-input-block layui-upload">
+                    <input type="hidden" id="img1" class="hidden" name="dh_thumb" value="">
+                    <button type="button" class="layui-btn" id="upload">
+                        点击上传系统图标
+                    </button>
+                    <input type="file" name="photo" id="photo_upload" style="display: none;">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <img src="{$daohang.dh_thumb}" alt="" id="art_thumb_img" style="max-width: 50px; max-height:50px;">
+                </div>
+            </div> 
+            <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  更改
+              </button>
+            </div>
+    </form>
+
+</div>
+
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    {load href="/static/admin/lib/layui/layui.js" /}
+    {load href="/static/admin/js/xadmin.js" /}
+    
+    <script>
+        $('#upload').on('click',function () {
+             $('#photo_upload').trigger('click');
+             $('#photo_upload').on('change',function () {
+                var obj = this;
+
+                var formData = new FormData($('#art_form')[0]);
+                $.ajax({
+                    url: '{:url('admin/Article/upload')}',
+                    type: 'post',
+                    data: formData,
+                    // 因为data值是FormData对象，不需要对数据做处理
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        if(data['ServerNo']=='200'){
+                            // 如果成功
+                            $('#art_thumb_img').attr('src', '/static/uploads/'+data['ResultData']);
+                            $('input[name=dh_thumb]').val('/static/uploads/'+data['ResultData']);
+                            $(obj).off('change');
+                            // alert(添加成功);
+
+                        }else{
+                            // 如果失败
+                            alert(data['ResultData']);
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        var number = XMLHttpRequest.status;
+                        var info = "错误号"+number+"文件上传失败!";
+                        // 将菊花换成原图
+                        // $('#pic').attr('src', '/file.png');
+                        alert(info);
+                    },
+                    async: true
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

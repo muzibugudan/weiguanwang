@@ -1,0 +1,330 @@
+  <!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    {include file="../application/admin/view/public/styles.html" /}
+    {include file="../application/admin/view/public/script.html" /}
+  </head>
+  
+  <body>
+    <div class="layui-row">
+    	<form action="{:url('admin/Guanwang/doedit')}" method="post" id="guanwang_form" class="layui-form">
+    		<input type="hidden" name="id" value="{$moban.id}">
+	    	<div class="layui-col-md3" style="margin-top: 50px">
+		      <div class="layui-inline">
+		      
+		     	<div class="layui-form-item">
+				    <label class="layui-form-label">当前模板风格</label>
+				    <div class="layui-input-block"> 
+				    	{switch $moban.style}
+				    		{case 1}<div class="layui-form-mid layui-word-aux">模板1</div>{/case}
+				    		{case 2}<div class="layui-form-mid layui-word-aux">模板2</div>{/case}
+				    		{case 3}<div class="layui-form-mid layui-word-aux">模板3</div>{/case}
+						{/switch}
+				    </div>
+			  	</div>
+			  <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><span class="x-red">*</span>封面</label>
+	                <div class="layui-input-block layui-upload">
+	                    <input type="hidden" id="img1" class="hidden" name="thumb" value="{$moban.thumb}">
+	                    <button type="button" class="layui-btn" id="upload">
+	                         更改封面
+	                    </button>
+	                    <input type="file" name="photo" id="photo_upload" style="display: none;">
+	                </div>
+              </div>
+              <div class="layui-form-item layui-form-text" style="width: 300px;height: 400px">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <img src="{$moban.thumb}" alt="" id="thumb_img" style="max-width: 200px; max-height:400px;" onclick="previewImg(this)" class="layui-upload-img">
+                </div>
+              </div>
+          	</div>
+            </div>
+		   
+		    <div class="layui-col-md9">
+		      <div class="grid-demo grid-demo-bg1">
+		      	<div class="layui-tab layui-tab-card">
+				  <ul class="layui-tab-title">
+				    <li class="layui-this">微官网入口</li>
+				    <li>基础信息</li>
+				    <li>幻灯片</li>
+				    <li>导航菜单</li>
+				    <li>底部菜单</li>
+				  </ul>
+				  <div class="layui-tab-content" style="height: 650px;">
+				    <div class="layui-tab-item layui-show">
+				    	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						  <legend>微官网入口</legend>
+						</fieldset>
+						<div class="layui-form-item">
+					    <label class="layui-form-label">微官网链接</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="url" lay-verify="title" autocomplete="off" placeholder="微官网链接" class="layui-input" value="{$moban.url}">
+					    </div>
+					  	</div>
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">触发关键字</label>
+					    <div class="layui-input-block">
+					      <input type="text" name="tag" lay-verify="required" placeholder="" autocomplete="off" class="layui-input" value="{$moban.tag}">
+					    </div>
+					  </div>
+					  <div class="layui-form-item">
+					    <label class="layui-form-label">是否启用</label>
+					    <div class="layui-input-block">
+					    	{if $moban.status==1}
+					      <input type="radio" name="status" value="1" title="开启" checked="">
+					      <input type="radio" name="status" value="0" title="禁用" >
+					      {else/}
+					      <input type="radio" name="status" value="1" title="开启" >
+					      <input type="radio" name="status" value="0" title="禁用" checked="">
+					      {/if}
+					    </div>
+					  </div>
+					  </div>
+				    <div class="layui-tab-item">
+				    	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						  <legend>基础信息</legend>
+						</fieldset>
+						<div class="layui-form-item">
+						    <label class="layui-form-label">微站名称</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="name" lay-verify="title" autocomplete="off" placeholder="微站名称" class="layui-input" value="{$moban.name}">
+						    </div>
+					  	</div>
+					  	<div class="layui-form-item">
+						    <label class="layui-form-label">页面描述</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="description" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" value="{$moban.description}">
+						     <div class="layui-form-mid layui-word-aux">用户通过微信分享给朋友时,会自动显示页 面描述</div> 
+						    </div>
+					  	</div>
+					  	<div class="layui-form-item">
+						    <label class="layui-form-label">域名绑定</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="yuming" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" value="{$moban.yuming}">
+						      <div class="layui-form-mid layui-word-aux">绑定时请先将域名解析指向到本服务器，请只填写host部分，不允许为当前系统域名。例如：www.baidu.com</div>
+						    </div>
+					  	</div>
+					  	<div class="layui-form-item">
+						    <label class="layui-form-label">自定义底部</label>
+						    <div class="layui-input-block">
+						      <input type="text" name="footer" lay-verify="title" autocomplete="off" placeholder="" class="layui-input" value="{$moban.footer}">
+						     <div class="layui-form-mid layui-word-aux">自定义底部信息</div> 
+						    </div>
+					  	</div>
+				    </div>
+				    <div class="layui-tab-item" >
+				    	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;" >
+						  <legend>幻灯片</legend>
+						</fieldset>
+						<table class="layui-table" lay-skin="line">
+							<colgroup>
+							<col width="150">
+							<col width="150">
+							<col width="200">
+							<col>
+							</colgroup>
+							<thead>
+								<tr>
+								<th>排序</th>
+								<th>标题</th>
+								<th>图片</th>
+								<th>链接</th>
+								<th>操作</th>
+								</tr> 
+							</thead>
+							{foreach name="images" item="v"}
+							<tbody>
+							<tr>
+								<td>{$v.img_sort}</td>
+								<td>{$v.img_title}</td>
+								<td><img src="{$v.img_thumb}" alt="" style="width: 100px;height: 100px"></td>
+								<td>{$v.img_url}</td>
+								<td><a href="{:url('admin/Guanwang/imgdel',['id'=>$v.img_id])}">删除</a></td>
+							</tr>
+							</tbody>
+							{/foreach}
+						</table>
+						<button class="layui-btn layui-btn-danger" onclick="x_admin_show('添加图片','{:url('admin/Guanwang/image')}',800,600)" type="button">添加图片
+						</button>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						  <legend>首页导航菜单</legend>
+						</fieldset>
+						<div style="padding: 20px; background-color: #F2F2F2;">
+							<div class="layui-row layui-col-space15">
+								<div class="layui-col-md12">
+							      <div class="layui-card">
+							        <div class="layui-card-header">模板文件为：（/app/themes/）;</div>
+							        <div class="layui-card-body">
+							          此模板提供 个导航位置，您可以指定导航在特定的位置显示，未指位置的导航将无法显示
+							        </div>
+							      </div>
+							    </div>
+							</div>
+						</div>
+						<table class="layui-table" lay-skin="line">
+							<colgroup>
+							<col width="150">
+							<col width="150">
+							<col width="200">
+							<col>
+							</colgroup>
+							<thead>
+							<tr>
+							<th>标题</th>
+							<th>图标</th>
+							<th>是否显示</th>
+							<th>操作</th>
+							</tr> 
+							</thead>
+							{foreach name="daohangs" item="v"}
+							<tbody>
+							<tr>
+							<td>{$v.dh_name}</td>
+							<td><img src="{$v.dh_thumb}" alt="" style="width: 50px;height: 50px"></td>
+							<td>
+								{if $v.dh_state==0}
+									<h2>显示</h2>
+								{else/}
+									<h2>隐藏</h2>
+								{/if}
+							</td>
+							<td>
+								<a href="{:url('admin/Guanwang/dhedit',['id'=>$v.dh_id])}">编辑</a>&nbsp&nbsp&nbsp&nbsp <a href="{:url('admin/Guanwang/dhdel',['id'=>$v.dh_id])}">删除</a>
+							</td>
+							</tr>
+							</tbody>
+							{/foreach}
+						</table>
+						<button class="layui-btn layui-btn-danger" onclick="x_admin_show('添加导航','{:url('admin/Guanwang/daohang')}',800,600)" type="button">添加
+						</button>
+				    </div>
+				    <div class="layui-tab-item">
+				    	<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">
+						  <legend>底部菜单</legend>
+						</fieldset>
+						<div class="layui-form-item">
+					    <label class="layui-form-label">是否开启</label>
+					    <div class="layui-input-block">
+					    	{if $moban.status==1}
+								<input type="radio" name="menu" value="1" title="开启" checked="">
+					      		<input type="radio" name="menu" value="0" title="禁用">
+					      		<div class="layui-card-body" style="font-size: 15px;opacity: 0.6;">
+						          微站的各个页面可以通过底部菜单串联起来。通过精心设置的底部菜单，方便访问者在页面或是栏目间快速切换，引导访问者前往您期望的页面。
+						      	</div>
+					    	{else/}
+								<input type="radio" name="menu" value="1" title="开启" >
+					      		<input type="radio" name="menu" value="0" title="禁用" checked="">
+						      	<div class="layui-card-body" style="font-size: 15px;opacity: 0.6;">
+						          微站的各个页面可以通过底部菜单串联起来。通过精心设置的底部菜单，方便访问者在页面或是栏目间快速切换，引导访问者前往您期望的页面。
+						      	</div>
+					    	{/if}
+					      
+					    </div>
+					    <div class="layui-form-item" pane="">
+						    <label class="layui-form-label">导航应用</label>
+						    <div class="layui-input-block">
+						      <input type="checkbox" name="apply[]" lay-skin="primary" title="微站主页" value="0" checked="">
+						      <input type="checkbox" name="apply[]" lay-skin="primary" title="微页面" value="1" checked="">
+						      <input type="checkbox" name="apply[]" lay-skin="primary" title="文章及其分类"  value="2">
+						    </div>
+						    <div class="layui-card-body"style="font-size: 15px;opacity: 0.6;">
+					          将导航应用在以上页面
+					      </div>
+					  	</div>
+				    </div>
+				  </div>
+				</div>
+		      </div>
+		    </div>
+		    <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="edit" lay-submit="">
+                  修改
+              </button>
+            </div>
+		</form>
+  	</div> 
+    <script>
+        $('#upload').on('click',function () {
+             $('#photo_upload').trigger('click');
+             $('#photo_upload').on('change',function () {
+                var obj = this;
+
+                var formData = new FormData($('#guanwang_form')[0]);
+                $.ajax({
+                    url: '{:url('admin/Guanwang/upload')}',
+                    type: 'post',
+                    data: formData,
+                    // 因为data值是FormData对象，不需要对数据做处理
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        if(data['ServerNo']=='200'){
+                            // 如果成功
+                            $('#thumb_img').attr('src', '/static/uploads/'+data['ResultData']);
+                            $('input[name=thumb]').val('/static/uploads/'+data['ResultData']);
+                            $(obj).off('change');
+                            // alert(添加成功);
+
+                        }else{
+                            // 如果失败
+                            alert(data['ResultData']);
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        var number = XMLHttpRequest.status;
+                        var info = "错误号"+number+"文件上传失败!";
+                        // 将菊花换成原图
+                        // $('#pic').attr('src', '/file.png');
+                        alert(info);
+                    },
+                    async: true
+                });
+            });
+        });
+    </script>
+ 	<!-- 图片预览 -->
+      <script>
+        function previewImg(obj) {
+          var img = new Image();  
+          img.src = obj.src;
+          //var height = img.height + 50; // 原图片大小
+          //var width = img.width; //原图片大小
+          var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";  
+          //弹出层
+          layer.open({  
+              type: 1,  
+              shade: 0.8,
+              offset: 'auto',
+              area: [500 + 'px',550+'px'],  // area: [width + 'px',height+'px']  //原图显示
+              shadeClose:true,
+              scrollbar: false,
+              title: "模板预览", //不显示标题  
+              content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响  
+              cancel: function () {  
+                  //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });  
+              }  
+          }); 
+        }
+      </script>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();
+  	</script>
+  </body>
+
+</html>

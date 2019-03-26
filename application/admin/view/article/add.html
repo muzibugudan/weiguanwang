@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    
+    {load href="/static/admin/css/font.css" /}
+    {load href="/static/admin/css/xadmin.css" /}
+
+    
+  </head>
+  <body>
+ <div class="x-body">
+    <form class="layui-form" id="art_form" action="{:url('admin/Article/save')}" method="post">
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>访问地址
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="art_url" 
+                           autocomplete="" class="layui-input" value="">
+                 <div class="layui-form-mid layui-word-aux">您可以根据此地址,添加回复规则,设置访问.</div>          
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>排序&nbsp&nbsp
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="art_sort" 
+                           autocomplete="" class="layui-input" value="">
+                     <div class="layui-form-mid layui-word-aux">文章显示顺序,越大则越靠前</div>      
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>文章标题
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="art_title" 
+                           autocomplete="" class="layui-input" value="">
+                    <div class="layui-form-mid layui-word-aux">文章标题</div>      
+                </div> 
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>店铺[选填]
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="shop" 
+                           autocomplete="" class="layui-input" value="">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"><span class="x-red">*</span>缩略图</label>
+                <div class="layui-input-block layui-upload">
+                    <input type="hidden" id="img1" class="hidden" name="art_thumb" value="">
+                    <button type="button" class="layui-btn" id="upload">
+                        上传图片
+                    </button>
+                    <input type="file" name="photo" id="photo_upload" style="display: none;">
+                </div>
+            </div>
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label"></label>
+                <div class="layui-input-block">
+                    <img src="" alt="" id="art_thumb_img" style="max-width: 350px; max-height:100px;">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_title" class="layui-form-label">
+                    <span class="x-red">*</span>触发关键字
+                </label>
+                <div class="layui-input-block">
+                    <input type="text" id="L_art_title" name="art_tag" 
+                           autocomplete="" class="layui-input" value="">
+                    <div class="layui-form-mid layui-word-aux">添加关键字以后,系统将生成一条图文规则,用户可以通过输入关键字来阅读文章.多个关键字则请用英文","隔开</div>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_tag" class="layui-form-label">
+                    <span class="x-red">*</span>文章来源
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_art_tag" name="art_source" 
+                           autocomplete="" class="layui-input" value="">
+                    <div class="layui-form-mid layui-word-aux">文章来源</div> 
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_tag" class="layui-form-label">
+                    <span class="x-red">*</span>文章作者
+                </label>
+                <div class="layui-input-inline">
+                    <input type="text" id="L_art_tag" name="art_editor" 
+                           autocomplete="" class="layui-input" value="">
+                           <div class="layui-form-mid layui-word-aux">文章作者</div> 
+                </div>
+            </div>
+         
+          
+            <div class="layui-form-item">
+                <label for="L_art_tag" class="layui-form-label">
+                    <span class="x-red">*</span>简介
+                </label>
+                <div class="layui-input-block">
+                    <textarea placeholder="请输入内容" class="layui-textarea" name="art_description"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label for="L_art_tag" class="layui-form-label">
+                    <span class="x-red">*</span>内容
+                </label>
+                 <!-- 加载编辑器的容器 -->
+                <div class="layui-input-block">
+                    <script id="container" name="art_content" type="text/plain" style="height: 500px">
+                        
+                    </script>
+                </div>
+            </div>       
+            <div class="layui-form-item">
+              <label for="L_repass" class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  添加
+              </button>
+            </div>
+    </form>
+
+</div>
+
+    <script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+    {load href="/static/admin/lib/layui/layui.js" /}
+    {load href="/static/admin/js/xadmin.js" /}
+    <!-- 百度富文本编辑器配置文件 -->
+    {load href="/static/ueditor/ueditor.config.js" /}
+    {load href="/static/ueditor/ueditor.all.min.js" /}
+    {load href="/static/ueditor/lang/zh-cn/zh-cn.js" /}
+
+    <script type="text/javascript">
+        //实例化编辑器
+        //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
+            var ue = UE.getEditor('container');
+    </script>
+    <script>
+        $('#upload').on('click',function () {
+             $('#photo_upload').trigger('click');
+             $('#photo_upload').on('change',function () {
+                var obj = this;
+
+                var formData = new FormData($('#art_form')[0]);
+                $.ajax({
+                    url: '{:url('admin/Article/upload')}',
+                    type: 'post',
+                    data: formData,
+                    // 因为data值是FormData对象，不需要对数据做处理
+                    processData: false,
+                    contentType: false,
+                    success: function(data){
+                        if(data['ServerNo']=='200'){
+                            // 如果成功
+                            $('#art_thumb_img').attr('src', '/static/uploads/'+data['ResultData']);
+                            $('input[name=art_thumb]').val('/static/uploads/'+data['ResultData']);
+                            $(obj).off('change');
+                            // alert(添加成功);
+
+                        }else{
+                            // 如果失败
+                            alert(data['ResultData']);
+                        }
+                    },
+                    error: function(XMLHttpRequest, textStatus, errorThrown) {
+                        var number = XMLHttpRequest.status;
+                        var info = "错误号"+number+"文件上传失败!";
+                        // 将菊花换成原图
+                        // $('#pic').attr('src', '/file.png');
+                        alert(info);
+                    },
+                    async: true
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>

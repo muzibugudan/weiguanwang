@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+  
+  <head>
+    <meta charset="UTF-8">
+    <title>欢迎页面-X-admin2.0</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8,target-densitydpi=low-dpi" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="stylesheet" href="/static/admin/css/font.css">
+    <link rel="stylesheet" href="/static/admin/css/xadmin.css">
+<script type="text/javascript" src="http://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+
+    <script type="text/javascript" src="/static/admin/lib/layui/layui.js" charset="utf-8"></script>
+    <script type="text/javascript" src="/static/admin/js/xadmin.js"></script>
+  </head>
+  
+  <body>
+    <div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">首页</a>
+        <a href="">微官网-文章</a>
+        <a>
+          <cite>微官网列表</cite></a>
+      </span>
+      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon" style="line-height:30px">ဂ</i></a>
+    </div>
+    <div class="x-body">
+      <div class="layui-row">
+        <form class="layui-form layui-col-md12 x-so" action="{:url('admin/Guanwang/index')}"  method="post" >
+          <input type="text" name="tag"  placeholder="搜索关键字" autocomplete="off" class="layui-input">
+          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
+        </form>
+      </div>
+      <xblock>
+        <button class="layui-btn" onclick="x_admin_show('新建微官网','{:url('admin/Guanwang/add')}',800,600)"><i class="layui-icon"></i>新建官微网</button>
+      </xblock>
+      <table class="layui-table">
+        <thead>
+          <tr>
+            <th>名称/模板</th>
+            <th>入口</th>
+            <th>是否启用</th>
+            <th>操作</th></tr>
+        </thead>
+        <tbody>
+        	{foreach name="moban" item="v"}
+          <tr style="height: 200px">
+            <td style="width: 600px">
+            	<div class="layui-row">
+			    <div class="layui-col-xs6">
+			      <div class="grid-demo grid-demo-bg1">
+			      	<img src="{$v.thumb}" alt="" style="width: 200px;height: 150px;margin-left: 100px" onclick="previewImg(this)" class="layui-upload-img">
+			      </div>
+			    </div>
+			    <div class="layui-col-xs6">
+			      <div class="grid-demo">
+			      	<ul>
+				      	<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">名称</li>
+				      	<li style="font-size: 13px;margin-bottom: 20px">{$v.name}</li>
+				      	<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">模板风格</li>
+				      	<li style="font-size: 13px">{$v.moban_name}</li>
+				    </ul>
+			      </div>
+			    </div>
+			  </div>
+            </td>
+            <td>
+            	<ul>
+            		<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">触发关键字</li>
+				    <li style="font-size: 13px;margin-bottom: 25px">{$v.tag}</li>
+            		<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">链接地址</li>
+            		<li style="opacity: 0.6;margin-bottom: 5px;"><a href="" style="color: red;font-size: 15px">复制链接</a></li>
+            	</ul>
+            </td>
+            <td class="td-status">
+               <form action="" class="layui-form">
+              <span class="layui-btn layui-btn-normal layui-btn-mini">
+               
+                {if $v.status==1}
+                <h2>已开启</h2>
+                {else/}
+                <h2>禁用</h2>
+                {/if}
+                
+              </span>
+              </form>
+            </td>
+            <td class="td-manage">
+              <ul>
+		      	<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">名称</li>
+		      	<li style="font-size: 13px;margin-bottom: 20px"><a href="{:url('admin/Guanwang/edit',['id'=>$v.id])}">编辑</a>&nbsp&nbsp&nbsp&nbsp <a href="{:url('admin/Guanwang/copy',['id'=>$v.id])}">复制站点</a>&nbsp&nbsp&nbsp&nbsp <a href="{:url('admin/Guanwang/del',['id'=>$v.id])}">删除站点</a></li>
+		      	<li style="opacity: 0.6;font-size: 15px;margin-bottom: 5px">内容设置</li>
+		      	<li style="font-size: 13px"><a href="{:url('admin/Guanwang/edit#huandengpian',['id'=>$v.id])}">幻灯片</a>&nbsp&nbsp&nbsp&nbsp <a href="{:url('admin/Guanwang/edit#daohang',['id'=>$v.id])}">导航</a><a href="{:url('admin/Guanwang/edit#kuaijiecd',['id'=>$v.id])}">快捷菜单</a>&nbsp&nbsp&nbsp&nbsp <a href="{:url('admin/Guanwang/edit#daohangcd',['id'=>$v.id])}">导航菜单</a></li>
+		      </ul>
+            </td>
+          </tr>
+          {/foreach}
+        </tbody>
+      </table>
+      <div class="page">
+        {$page|raw}
+      </div>
+
+    </div>
+    <script>var _hmt = _hmt || []; (function() {
+        var hm = document.createElement("script");
+        hm.src = "https://hm.baidu.com/hm.js?b393d153aeb26b46e9431fabaf0f6190";
+        var s = document.getElementsByTagName("script")[0];
+        s.parentNode.insertBefore(hm, s);
+      })();</script>
+      <!-- 图片预览 -->
+      <script>
+        function previewImg(obj) {
+          var img = new Image();  
+          img.src = obj.src;
+          //var height = img.height + 50; // 原图片大小
+          //var width = img.width; //原图片大小
+          var imgHtml = "<img src='" + obj.src + "' width='500px' height='500px'/>";  
+          //弹出层
+          layer.open({  
+              type: 1,  
+              shade: 0.8,
+              offset: 'auto',
+              area: [500 + 'px',550+'px'],  // area: [width + 'px',height+'px']  //原图显示
+              shadeClose:true,
+              scrollbar: false,
+              title: "模板预览", //不显示标题  
+              content: imgHtml, //捕获的元素，注意：最好该指定的元素要存放在body最外层，否则可能被其它的相对元素所影响  
+              cancel: function () {  
+                  //layer.msg('捕获就是从页面已经存在的元素上，包裹layer的结构', { time: 5000, icon: 6 });  
+              }  
+          }); 
+        }
+      </script>
+  </body>
+
+</html>
