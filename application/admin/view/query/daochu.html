@@ -1,0 +1,20 @@
+
+	<table class="layui-table">
+        <thead>
+          <tr>
+            <th style="width: 50px">id</th>
+            <th>车牌号</th>             
+            <th>时间</th>             
+            <th>订单号</th>          
+        </thead>
+        <tbody>
+        {foreach name="park" item="v"}
+          <tr>
+            <td>{$v.id}</td>
+            <td>{$v.plate_number}</td>
+            <td>{$v.create_time|date="Y-m-d H:i:s"}</td>
+            <td>{$v.out_trade_no}</td>
+          </tr>
+		    {/foreach}
+        </tbody>
+      </table>

@@ -24,18 +24,31 @@ class Query extends Controller
             $times = strtotime($param['create_time']);
             // var_dump($times);
             $where[] =['create_time','>',$times];
+            $this->assign('create_time',$times);
+        }else{
+            $param['create_time']= '';
+            $this->assign('create_time',$param['create_time']);
         } 
-       
+
+        
         // 车牌搜索
         if(isset($param['plate_number']) && !empty($param['plate_number'])){
              // var_dump($param['plate_number']);
             $where[] = ['plate_number','like', "%".$param['plate_number']."%"];
-        }
+            $this->assign('plate_number',$param['plate_number']);
+        }else{
+            $param['plate_number']= '';
+            $this->assign('plate_number',$param['plate_number']);
+        } 
         // 订单号搜索
         if(isset($param['out_trade_no']) && !empty($param['out_trade_no'])){
              // var_dump($param['out_trade_no']);
             $where[] = ['out_trade_no','like',"%".$param['out_trade_no']."%"];
-        }
+            $this->assign('out_trade_no',$param['out_trade_no']);
+        }else{
+            $param['out_trade_no']= '';
+            $this->assign('out_trade_no',$param['out_trade_no']);
+        } 
         // 获取停车信息
         $park = model('Querys')
                 ->where($where) 
@@ -46,73 +59,41 @@ class Query extends Controller
         $page = $park->render();
         // 统计数量
         $num = model('Querys')->where($where)->count();
-        // var_dump($parks);
+        // $res = implode('', $param);
+
+        // var_dump($where);
+
         return $this->fetch('query/list',['park'=>$park,'page'=>$page,'num'=>$num]);
     }
-
-    /**
-     * 显示创建资源表单页.
-     *
-     * @return \think\Response
-     */
-    public function create()
+    // 实现搜索资源Excel下载
+    public function daochu()
     {
-        //
+        Header( "Content-type: application/octet-stream "); 
+        Header( "Accept-Ranges: bytes "); 
+        Header( "Content-type:application/vnd.ms-excel ;charset=utf-8");//自己写编码 
+        Header( "Content-Disposition:attachment;filename=车牌查询日志.xls "); //名字
+        $param = $this->request->param();
+        // var_dump($param['create_time']);
+        // var_dump($param['plate_number']);
+        // var_dump($param['out_trade_no']);
+        $where = [];
+        // // 起始时间
+        if(isset($param['create_time']) && !empty($param['create_time'])){
+            $times = strtotime($param['create_time']);
+            $where[] =['create_time','>',$times];
+        }
+        // 车牌搜索
+        if(isset($param['plate_number']) && !empty($param['plate_number'])){
+            $where[] = ['plate_number','like', "%".$param['plate_number']."%"];
+        }
+        // 订单号搜索
+        if(isset($param['out_trade_no']) && !empty($param['out_trade_no'])){
+            $where[] = ['out_trade_no','like',"%".$param['out_trade_no']."%"];
+        }
+        // 获取停车信息
+        $park = model('Querys')->where($where)->field('id,plate_number,create_time,out_trade_no')->select();
+        return $this->fetch('query/daochu',['park'=>$park]);
+       
     }
 
-    /**
-     * 保存新建的资源
-     *
-     * @param  \think\Request  $request
-     * @return \think\Response
-     */
-    public function save(Request $request)
-    {
-        //
-    }
-
-    /**
-     * 显示指定的资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function read($id)
-    {
-        //
-    }
-
-    /**
-     * 显示编辑资源表单页.
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * 保存更新的资源
-     *
-     * @param  \think\Request  $request
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
-     * 删除指定资源
-     *
-     * @param  int  $id
-     * @return \think\Response
-     */
-    public function delete($id)
-    {
-        //
-    }
 }

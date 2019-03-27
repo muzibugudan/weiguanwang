@@ -18,7 +18,7 @@ class Guanwang extends Controller
         $param = $this->request->param();
         // var_dump($param);
         // 判断是否存在搜索关键词
-        if (isset($param['tag'])) {
+        if (isset($param['tag'])) {  
            $moban = model('Guanwangs')
                     ->join('Moban','guanwang.style=moban.moban_id')
                     ->where('tag','like','%'.$param['tag'].'%')->paginate(3); 
