@@ -36,15 +36,16 @@
               </div>
               <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
           </form>
-          <form class="layui-form" action="{:url('admin/Query/daochu')}" method="post">
-            <input type="hidden" name="create_time" value="{$create_time}">                
-            <input type="hidden" name="plate_number" value="{$plate_number}">                
-            <input type="hidden" name="out_trade_no" value="{$out_trade_no}">                
-            <button class="layui-btn"><i class="layui-icon">导出Excel</i></button>
-          </form>    
+              
 			  </div>
 			</div>
       <xblock>
+        <form class="layui-form" action="{:url('admin/Query/daochu')}" method="post">
+          <input type="hidden" name="create_time" value="{$create_time}">                
+          <input type="hidden" name="plate_number" value="{$plate_number}">                
+          <input type="hidden" name="out_trade_no" value="{$out_trade_no}">                
+          <button class="layui-btn"><i class="layui-icon">导出信息到Excel表格</i></button>
+        </form>
         <span class="x-right" style="line-height:40px">共有数据：{$num} 条</span>
       </xblock>
       <table class="layui-table">

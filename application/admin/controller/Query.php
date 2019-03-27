@@ -17,7 +17,7 @@ class Query extends Controller
     public function index()
     {  
         $param = $this->request->param();
-        // var_dump($param);
+
         $where = [];
         // 起始时间
         if(isset($param['create_time']) && !empty($param['create_time'])){
@@ -59,9 +59,7 @@ class Query extends Controller
         $page = $park->render();
         // 统计数量
         $num = model('Querys')->where($where)->count();
-        // $res = implode('', $param);
 
-        // var_dump($where);
 
         return $this->fetch('query/list',['park'=>$park,'page'=>$page,'num'=>$num]);
     }
@@ -73,22 +71,23 @@ class Query extends Controller
         Header( "Content-type:application/vnd.ms-excel ;charset=utf-8");//自己写编码 
         Header( "Content-Disposition:attachment;filename=车牌查询日志.xls "); //名字
         $param = $this->request->param();
-        // var_dump($param['create_time']);
-        // var_dump($param['plate_number']);
-        // var_dump($param['out_trade_no']);
         $where = [];
         // // 起始时间
         if(isset($param['create_time']) && !empty($param['create_time'])){
-            $times = strtotime($param['create_time']);
-            $where[] =['create_time','>',$times];
+            // $times = strtotime($param['create_time']);
+            $where[] =['create_time','>',$param['create_time']];
         }
         // 车牌搜索
         if(isset($param['plate_number']) && !empty($param['plate_number'])){
             $where[] = ['plate_number','like', "%".$param['plate_number']."%"];
+        }else{
+
         }
         // 订单号搜索
         if(isset($param['out_trade_no']) && !empty($param['out_trade_no'])){
             $where[] = ['out_trade_no','like',"%".$param['out_trade_no']."%"];
+        }else{
+
         }
         // 获取停车信息
         $park = model('Querys')->where($where)->field('id,plate_number,create_time,out_trade_no')->select();
