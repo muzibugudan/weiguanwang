@@ -24,15 +24,22 @@
       <div class="layui-row">
 			  <div class="layui-form-item">
           <form class="layui-form layui-form-pane" action="{:url('admin/Query/index')}" method="post">  
-  			      <label class="layui-form-label">选择起始日期</label>
+  			      <label class="layui-form-label">起始時間</label>
   			      <div class="layui-input-inline">
-  			        <input type="text" name="create_time" id="date1" autocomplete="off" class="layui-input" placeholder="起始日期">
+  			        <input type="text" name="start_time" id="date1" autocomplete="off" class="layui-input" placeholder="起始日期" value="{$start_times|default=''}">
   			      </div>
+              <label class="layui-form-label">結束時間</label>
               <div class="layui-input-inline">
-                <input type="text" name="plate_number"  placeholder="车牌号搜索" autocomplete="off" class="layui-input"> 
+                <input type="text" name="end_time" id="date2" autocomplete="off" class="layui-input" placeholder="起始日期" value="{$end_times|default=''}">
               </div>
               <div class="layui-input-inline">
-                <input type="text" name="out_trade_no"  placeholder="订单号搜索" autocomplete="off" class="layui-input"> 
+                <input type="text" name="plate_number"  placeholder="车牌号搜索" autocomplete="off" class="layui-input" value="{$plate_number|default=''}"> 
+              </div>
+              <div class="layui-input-inline">
+                <input type="text" name="out_trade_no"  placeholder="订单号搜索" autocomplete="off" class="layui-input" value="{$out_trade_no|default=''}"> 
+              </div>
+              <div class="layui-input-inline">
+                <input type="text" name="transaction_id"  placeholder="微信订单号搜索" autocomplete="off" class="layui-input" value="{$transaction_id|default=''}"> 
               </div>
               <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
           </form>
@@ -41,21 +48,27 @@
 			</div>
       <xblock>
         <form class="layui-form" action="{:url('admin/Query/daochu')}" method="post">
-          <input type="hidden" name="create_time" value="{$create_time}">                
+          <input type="hidden" name="start_time" value="{$start_time}">                
+          <input type="hidden" name="end_time" value="{$end_time}">                
           <input type="hidden" name="plate_number" value="{$plate_number}">                
-          <input type="hidden" name="out_trade_no" value="{$out_trade_no}">                
+          <input type="hidden" name="out_trade_no" value="{$out_trade_no}">   
+          <input type="hidden" name="transaction_id" value="{$transaction_id}">   
           <button class="layui-btn"><i class="layui-icon">导出信息到Excel表格</i></button>
         </form>
         <span class="x-right" style="line-height:40px">共有数据：{$num} 条</span>
       </xblock>
       <table class="layui-table">
         <thead>
-          <tr>
             <th style="width: 50px">id</th>
             <th>车牌</th>             
-            <th>停车时间</th>
+            <th>創建訂單时间</th>
+            <th>支付訂單时间</th>
             <th>订单号</th>
+            <th>微信订单号</th>
+            <th>支付金额</th>
+            <th>减免费用</th>
             <th>是否付款</th>
+
         </thead>
         <tbody>
         {foreach name="park" item="v"}
@@ -63,7 +76,23 @@
             <td>{$v.id}</td>
             <td>{$v.plate_number}</td>
             <td>{$v.create_time|date="Y-m-d H:i:s"}</td>
+            <td>{$v.update_time|date="Y-m-d H:i:s"}</td>
             <td>{$v.out_trade_no}</td>
+            <td>
+              {empty name="$vtransaction_id"}
+                  暂无微信订单号
+              {else/}
+                {$v.transaction_id}
+              {/empty}
+            </td>
+            <td>{$v.total_fee}</td>
+            <td>
+              {empty name="$v.deductionAmount"}
+                0.00
+              {else /}
+                {$v.deductionAmount}
+              {/empty}
+            </td>
             <td class="td-manage">
               {if $v.status==1}
                 <h2>已付款</h2>
@@ -80,70 +109,6 @@
       </div>
 
     </div>
-   <!--  <script>
-      layui.use('laydate', function(){
-        var laydate = layui.laydate;
-        
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        //执行一个laydate实例
-        laydate.render({
-          elem: '#end' //指定元素
-        });
-      });
-
-      /*删除*/
-      function member_del(obj,id){
-          layer.confirm('确认要删除吗？',function(index){
-              //发异步删除数据
-              $.post('{:url('admin/Article/del')}',function(data){
-                      // console.log(data);
-                  if(data.status==0){
-                      $(obj).parents("tr").remove();
-                      layer.msg(data.message,{icon:6,time:1000});
-                  }else{
-                      layer.msg(data.message,{icon:5,time:1000});
-                  }
-              });
-          });
-      }
-
-      // 批量删除
-      function delAll(argument) {
-         // 获取到要批量删除的id
-          var $ids=[];
-          $(".layui-form-checked").not('.header').each(function(i,v){
-              var u = $(v).attr('data-id');
-              $ids.push(u);
-          });
-
-          layer.confirm('确认要删除吗？', function (index) {
-                $.ajax({
-                  type:"POST",
-                  url:'{:url('admin/Article/delAll')}',
-                  data: {"ids":$ids},
-                  dataType: "json",
-                  success: function (data) {
-                      // console.log(data);
-                      if(data.status == '0'){
-                          $(".layui-form-checked").not('.header').parents('tr').remove();
-                        layer.msg(data.message,{icon:6,time:1000});
-                      }else{
-                          layer.msg(data.message,{icon:5,time:1000});
-                      }
-                  },
-                  error:function(data){
-                      layer.msg(data.msg,{icon:5})
-                  }
-                });
-          });
-
-          
-      }
-    </script> -->
     <script>
 		layui.use(['form', 'layedit', 'laydate'], function(){
 		  var form = layui.form
@@ -158,6 +123,9 @@
 		  laydate.render({
 		    elem: '#date1'
 		  });
+      laydate.render({
+        elem: '#date2'
+      });
 		 
 		  
 		});

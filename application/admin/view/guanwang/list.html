@@ -30,7 +30,7 @@
     <div class="x-body">
       <div class="layui-row">
         <form class="layui-form layui-col-md12 x-so" action="{:url('admin/Guanwang/index')}"  method="post" >
-          <input type="text" name="tag"  placeholder="搜索关键字" autocomplete="off" class="layui-input">
+          <input type="text" name="tag"  placeholder="搜索关键字" autocomplete="off" class="layui-input" value="{$tag|default=''}">
           <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </form>
       </div>
